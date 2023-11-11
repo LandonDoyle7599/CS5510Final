@@ -86,6 +86,7 @@ while True:
 
     # Break the loop if a key is pressed
     if cv2.waitKey(1) & 0xFF == ord('q'):
+        car.stop()
         break
 
 # Release the webcam and close all OpenCV windows
