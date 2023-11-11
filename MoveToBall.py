@@ -54,7 +54,19 @@ while True:
     if not ret:
         break
 
-    if is_ball_in_frame(frame, ball_color):
+    # Convert the frame to the HSV color space
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+    # Define the mask for the selected color (yellow or green)
+    if ball_color == "yellow":
+        mask = cv2.inRange(hsv, yellow_lower, yellow_upper)
+    elif ball_color == "green":
+        mask = cv2.inRange(hsv, green_lower, green_upper)
+
+    # Find contours in the mask
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    if contours:
         # Find the largest contour (the ball)
         largest_contour = max(contours, key=cv2.contourArea)
         M = cv2.moments(largest_contour)
@@ -82,6 +94,7 @@ while True:
                 car.stop()
 
     # Display the frame
+
     # Break the loop if a key is pressed
     if cv2.waitKey(1) & 0xFF == ord('q'):
         car.stop()
