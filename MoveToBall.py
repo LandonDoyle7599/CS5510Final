@@ -83,6 +83,7 @@ while True:
     car.stop()
 print("Found Ball")    
 
+previousCommands = []
 
 while True:
     # Read a frame from the webcam
@@ -118,23 +119,34 @@ while True:
             # Determine if the ball is left, right, or center
             if cx < frame_center - 40:
                 car.control_car(-50,50)
+                previousCommands.append((-50, 50))
                 time.sleep(.05)
                 car.stop()
+                if abs(distance()) <= 2:
+                    time.sleep(.05)
+                    if abs(distance()) <= 2:
+                        print("Got to Ball")
+                        break
             elif cx > frame_center + 40:
                 car.control_car(50,-50)
+                previousCommands.append((50,-50))
                 time.sleep(.05)
                 car.stop()
+                if abs(distance()) <= 2:
+                    time.sleep(.05)
+                    if abs(distance()) <= 2:
+                        print("Got to Ball")
+                        break
             else:
                 car.control_car(75,75)
+                previousCommands.append((75,75))
                 time.sleep(.05)
                 car.stop()
-                if abs(distance()) <= 1:
-                    time.sleep(.3)
-                    if abs(distance()) <= 1:
-                        time.sleep(.2)
-                        if abs(distance()) <= 1:
-                            print("Got to Ball")
-                            break
+                if abs(distance()) <= 2:
+                    time.sleep(.05)
+                    if abs(distance()) <= 2:
+                        print("Got to Ball")
+                        break
     else:
         car.control_car(-75,75)
         time.sleep(.05)
@@ -146,6 +158,12 @@ while True:
     if cv2.waitKey(1) & 0xFF == ord('q'):
         car.stop()
         break
+
+previousCommands.reverse()
+for command in previousCommands:
+    car.control_car(command[1], command[0])
+    time.sleep(.05)
+    car.stop()
 
 # Release the webcam and close all OpenCV windows
 cap.release()
