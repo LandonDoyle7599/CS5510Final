@@ -82,8 +82,6 @@ while True:
                 car.stop()
 
     # Display the frame
-    cv2.imshow("Frame", frame)
-
     # Break the loop if a key is pressed
     if cv2.waitKey(1) & 0xFF == ord('q'):
         car.stop()
