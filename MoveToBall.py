@@ -83,7 +83,8 @@ while True:
     car.stop()
 print("Found Ball")    
 
-previousCommands = []
+prevLeft = []
+prevRight = []
 
 while True:
     # Read a frame from the webcam
@@ -119,7 +120,8 @@ while True:
             # Determine if the ball is left, right, or center
             if cx < frame_center - 40:
                 car.control_car(-50,50)
-                previousCommands.append((-50, 50))
+                prevLeft.append(50)
+                prevRight.append(-50)
                 time.sleep(.05)
                 car.stop()
                 if abs(distance()) <= 2:
@@ -129,7 +131,8 @@ while True:
                         break
             elif cx > frame_center + 40:
                 car.control_car(50,-50)
-                previousCommands.append((50,-50))
+                prevLeft.append(-50)
+                prevRight.append(50)
                 time.sleep(.05)
                 car.stop()
                 if abs(distance()) <= 2:
@@ -139,7 +142,8 @@ while True:
                         break
             else:
                 car.control_car(75,75)
-                previousCommands.append((75,75))
+                prevLeft.append(-75)
+                prevRight.append(-75)
                 time.sleep(.05)
                 car.stop()
                 if abs(distance()) <= 2:
@@ -159,11 +163,14 @@ while True:
         car.stop()
         break
 
-previousCommands.reverse()
-for command in previousCommands:
-    car.control_car(command[1], command[0])
+prevLeft.reverse()
+prevRight.reverse()
+for x in range(len(prevLeft)):
+    car.control_car(prevLeft[x], prevRight[x])
     time.sleep(.05)
-    car.stop()
+    car.control_car(0,0)
+    time.sleep(.05)
+
 
 # Release the webcam and close all OpenCV windows
 cap.release()
