@@ -126,31 +126,35 @@ while True:
                 car.control_car(-75,75)
                 prevLeft.append(75)
                 prevRight.append(-75)
-                time.sleep(.5)
+                time.sleep(.1)
                 car.control_car(0,0)
                 time.sleep(.01)
+                if abs(distance()) <= .5:
+                    print("Got to Ball")
+                    break
             elif cx > frame_center + 40:
                 car.control_car(75,-75)
                 prevLeft.append(-75)
                 prevRight.append(75)
-                time.sleep(.5)
+                time.sleep(.1)
                 car.control_car(0,0)
                 time.sleep(.01)
+                if abs(distance()) <= .5:
+                    print("Got to Ball")
+                    break
             else:
                 car.control_car(75,75)
                 prevLeft.append(-75)
                 prevRight.append(-75)
-                time.sleep(.5)
+                time.sleep(.1)
                 car.control_car(0,0)
                 time.sleep(.01)
                 if abs(distance()) <= .5:
-                    time.sleep(.5)
-                    if abs(distance()) <= .5:
-                        print("Got to Ball")
-                        break
+                    print("Got to Ball")
+                    break
     else:
         car.control_car(-75,75)
-        time.sleep(.5)
+        time.sleep(.1)
         car.control_car(0,0)
         time.sleep(.01)
 
@@ -166,9 +170,9 @@ prevLeft.reverse()
 prevRight.reverse()
 for x in range(len(prevLeft)):
     car.control_car(prevLeft[x]*2, prevRight[x]*2)
-    time.sleep(.5)
+    time.sleep(.1)
     car.control_car(0,0)
-    time.sleep(.5)
+    time.sleep(.05)
 
 
 # Release the webcam and close all OpenCV windows
