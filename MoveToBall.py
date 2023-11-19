@@ -5,10 +5,13 @@ import RPi.GPIO as GPIO
 from Car import Car
 
 # Define the colors for ball detection (you can adjust these values)
-yellow_lower = np.array([20, 100, 100])
+yellow_lower = np.array([20, 75, 75])
 yellow_upper = np.array([40, 255, 255])
+green_lower = np.array([40, 75, 75])
 green_lower = np.array([40, 100, 100])
 green_upper = np.array([80, 255, 255])
+blue_lower = np.array([90, 75, 75])
+blue_upper = np.array([130, 255, 255])
 
 # Initialize your car class (modify this to match your actual class)
 
@@ -79,8 +82,9 @@ while True:
         break
 
     car.control_car(-75, 75)
-    time.sleep(.1)
-    car.stop()
+    time.sleep(.5)
+    car.control_car(0,0)
+    time.sleep(.01)
 print("Found Ball")    
 
 prevLeft = []
@@ -119,57 +123,52 @@ while True:
 
             # Determine if the ball is left, right, or center
             if cx < frame_center - 40:
-                car.control_car(-50,50)
-                prevLeft.append(50)
-                prevRight.append(-50)
-                time.sleep(.05)
-                car.stop()
-                if abs(distance()) <= 2:
-                    time.sleep(.05)
-                    if abs(distance()) <= 2:
-                        print("Got to Ball")
-                        break
+                car.control_car(-75,75)
+                prevLeft.append(75)
+                prevRight.append(-75)
+                time.sleep(.5)
+                car.control_car(0,0)
+                time.sleep(.01)
             elif cx > frame_center + 40:
-                car.control_car(50,-50)
-                prevLeft.append(-50)
-                prevRight.append(50)
-                time.sleep(.05)
-                car.stop()
-                if abs(distance()) <= 2:
-                    time.sleep(.05)
-                    if abs(distance()) <= 2:
-                        print("Got to Ball")
-                        break
+                car.control_car(75,-75)
+                prevLeft.append(-75)
+                prevRight.append(75)
+                time.sleep(.5)
+                car.control_car(0,0)
+                time.sleep(.01)
             else:
                 car.control_car(75,75)
                 prevLeft.append(-75)
                 prevRight.append(-75)
-                time.sleep(.05)
-                car.stop()
-                if abs(distance()) <= 2:
-                    time.sleep(.05)
-                    if abs(distance()) <= 2:
+                time.sleep(.5)
+                car.control_car(0,0)
+                time.sleep(.01)
+                if abs(distance()) <= .5:
+                    time.sleep(.5)
+                    if abs(distance()) <= .5:
                         print("Got to Ball")
                         break
     else:
         car.control_car(-75,75)
-        time.sleep(.05)
-        car.stop()
+        time.sleep(.5)
+        car.control_car(0,0)
+        time.sleep(.01)
 
     # Display the frame
 
     # Break the loop if a key is pressed
     if cv2.waitKey(1) & 0xFF == ord('q'):
-        car.stop()
+        car.control_car(0,0)
+        time.sleep(.01)
         break
 
 prevLeft.reverse()
 prevRight.reverse()
 for x in range(len(prevLeft)):
-    car.control_car(prevLeft[x], prevRight[x])
-    time.sleep(.05)
+    car.control_car(prevLeft[x]*2, prevRight[x]*2)
+    time.sleep(.5)
     car.control_car(0,0)
-    time.sleep(.05)
+    time.sleep(.5)
 
 
 # Release the webcam and close all OpenCV windows
