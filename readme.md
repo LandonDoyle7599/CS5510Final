@@ -1,4 +1,4 @@
-MoveToBall.py is the solution file representing our finished project.
+MoveToBall.py is the solution file representing our finished project. Changing the ball_color variable on line 17 of MoveToBall.py determines the color of the ball the robot will seek. The current options are red, blue, green, and yellow.
 
 The file Car.py contains provided class code to control the raspbot
 

@@ -14,6 +14,7 @@ red_lower = np.array([0, 100, 100])
 red_upper = np.array([20, 255, 255])
 # Initialize your car class (modify this to match your actual class)
 # Initialize the webcam
+ball_color = "red"  # Change this to "yellow" if needed
 cap = cv2.VideoCapture(0)
 car = Car()
 GPIO.setwarnings(False)
@@ -62,7 +63,6 @@ def is_ball_in_frame(frame, color):
     return bool(contours)
 # Initialize the car object
 # Rotate the car left until a ball is detected
-ball_color = "red"  # Change this to "yellow" if needed
 
 
 while True:
