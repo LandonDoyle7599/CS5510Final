@@ -36,6 +36,6 @@ def distance():
 
 while True:
     dist = distance()
-    if(dist < .5):
-        print(dist)
-        break
+    print(abs(dist))
+    time.sleep(1)
+        
